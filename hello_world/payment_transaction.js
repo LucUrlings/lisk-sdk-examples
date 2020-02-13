@@ -2,6 +2,7 @@ const {
 	TransferTransaction
 } = require('@liskhq/lisk-transactions');
 
+
 class PaymentTransaction extends TransferTransaction {
 
 	static get TYPE () {
@@ -14,13 +15,6 @@ class PaymentTransaction extends TransferTransaction {
 
 	async prepare(store) {
 		await super.prepare(store);
-	}
-
-	validateAsset() {
-		const errors = [];
-
-
-		return errors;
 	}
 
 	applyAsset(store) {

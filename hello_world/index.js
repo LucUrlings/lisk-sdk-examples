@@ -16,7 +16,7 @@ configDevnet.modules.network.seedPeers = [{ip: "167.86.83.197", wsPort: 5000}];
 
 const app = new Application(genesisBlockDevnet, configDevnet);
 app.registerTransaction(HelloTransaction);
-app.registerTransaction(PaymentTransaction)
+app.registerTransaction(PaymentTransaction);
 
 app
 	.run()

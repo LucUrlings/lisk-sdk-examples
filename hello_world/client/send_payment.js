@@ -5,6 +5,8 @@ const networkIdentifier = getNetworkIdentifier(
     "23ce0366ef0a14a91e5fd4b1591fc880ffbef9d988ff8bebf8f3666b0c09597d",
     "Lisk",
 );
+const transactions = require('@liskhq/lisk-transactions');
+
 
 /**
  *  To directly send the printed transaction:
@@ -19,14 +21,16 @@ const getTimestamp = () => {
     return parseInt(inSeconds);
 };
 
+const amount = "10";
+
 const tx = new PaymentTransaction({
     asset: {
         "Homo": "Davy",
-        "amount": 10000,
-
+        "amount": transactions.utils.convertLSKToBeddows(amount),
+        "recipientId": "7082395287368165918L",
     },
-    amount: 10000,
-    recipientId: "11102152680780038730L",
+    amount: transactions.utils.convertLSKToBeddows(amount),
+    recipientId: "7082395287368165918L",
     networkIdentifier: networkIdentifier,
   timestamp: getTimestamp(),
 });
