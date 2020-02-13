@@ -27,7 +27,7 @@ class PaymentTransaction extends TransferTransaction {
 		const errors = [];
 		const sender = store.account.get(this.senderId);
 
-		const newObj = { ...sender, asset: { amount: this.asset.amount,  } };
+		const newObj = { ...sender, asset: this.asset };
 		store.account.set(sender.address, newObj);
 
 		return errors;

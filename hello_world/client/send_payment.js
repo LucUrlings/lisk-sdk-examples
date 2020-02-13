@@ -23,8 +23,8 @@ const tx = new PaymentTransaction({
     asset: {
         "Homo": "Davy"
     },
-    amount: 1,
-    recipientId: "8600925797052173386L",
+    amount: 101,
+    recipientId: "16967537520953859008L",
     networkIdentifier: networkIdentifier,
   timestamp: getTimestamp(),
 });
