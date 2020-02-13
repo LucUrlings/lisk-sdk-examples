@@ -1,4 +1,4 @@
-const HelloTransaction = require('../hello_transaction');
+const PaymentTransaction = require('../payment_transaction');
 const { EPOCH_TIME } = require('@liskhq/lisk-constants');
 const {getNetworkIdentifier} = require('@liskhq/lisk-cryptography');
 const networkIdentifier = getNetworkIdentifier(
@@ -14,16 +14,17 @@ const networkIdentifier = getNetworkIdentifier(
 
 const getTimestamp = () => {
     // check config file or curl localhost:4000/api/node/constants to verify your epoc time
-    const millisSinceEpoc = Date.now() - Date.parse(EPOCH_TIME);
-    const inSeconds = ((millisSinceEpoc) / 1000).toFixed(0);
-    return  parseInt(inSeconds);
+    const millisSinceEpoch = Date.now() - Date.parse(EPOCH_TIME);
+    const inSeconds = ((millisSinceEpoch) / 1000).toFixed(0);
+    return parseInt(inSeconds);
 };
 
-const tx = new HelloTransaction({
+const tx = new PaymentTransaction({
     asset: {
-        "amount": "1",
-        "recipientId": "8600925797052173386L"
+        "Homo": "Davy"
     },
+    amount: 1,
+    recipientId: "8600925797052173386L",
     networkIdentifier: networkIdentifier,
   timestamp: getTimestamp(),
 });

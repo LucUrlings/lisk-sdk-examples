@@ -1,5 +1,6 @@
 const { Application, genesisBlockDevnet, configDevnet} = require('lisk-sdk');
 const HelloTransaction = require('./hello_transaction');
+const PaymentTransaction = require('./payment_transaction');
 
 configDevnet.app.label = 'HelloWorld-blockchain-app';
 
@@ -15,6 +16,7 @@ configDevnet.modules.network.seedPeers = [{ip: "144.91.116.43", wsPort: 5000}];
 
 const app = new Application(genesisBlockDevnet, configDevnet);
 app.registerTransaction(HelloTransaction);
+app.registerTransaction(PaymentTransaction)
 
 app
 	.run()
