@@ -21,10 +21,11 @@ const getTimestamp = () => {
 
 const tx = new HelloTransaction({
     asset: {
-        hello: 'world',
+        "amount": "1",
+        "recipientId": "11237980039345381032L"
     },
     networkIdentifier: networkIdentifier,
-    timestamp: getTimestamp(),
+  timestamp: getTimestamp(),
 });
 
 tx.sign('creek own stem final gate scrub live shallow stage host concert they');

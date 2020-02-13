@@ -40,19 +40,10 @@ class HelloTransaction extends BaseTransaction {
 	applyAsset(store) {
         const errors = [];
         const sender = store.account.get(this.senderId);
-        if (sender.asset && sender.asset.hello) {
-            errors.push(
-                new TransactionError(
-                    'You cannot send a hello transaction multiple times',
-                    this.id,
-                    '.asset.hello',
-                    this.amount.toString()
-                )
-            );
-        } else {
-            const newObj = { ...sender, asset: { hello: this.asset.hello } };
-            store.account.set(sender.address, newObj);
-        }
+
+        const newObj = { ...sender, asset: { hello: this.asset.hello } };
+        store.account.set(sender.address, newObj);
+
         return errors; // array of TransactionErrors, returns empty array if no errors are thrown
 	}
 
