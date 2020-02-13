@@ -6,13 +6,13 @@ configDevnet.app.label = 'HelloWorld-blockchain-app';
 
 configDevnet.components.storage.database = 'lisk_dev2'; //server
 // configDevnet.components.storage.database = 'lisk_dev3'; //local
-configDevnet.components.storage.host = 'bepiscoin.feddema.dev';
-configDevnet.components.storage.port = 5432;
+configDevnet.components.storage.host = 'postgres.feddema.dev';
+configDevnet.components.storage.port = 5433;
 configDevnet.components.storage.user = 'lisk';
 configDevnet.components.storage.password = 'pass1234';
 configDevnet.modules.http_api.access.public = true;
 
-configDevnet.modules.network.seedPeers = [{ip: "144.91.116.43", wsPort: 5000}];
+configDevnet.modules.network.seedPeers = [{ip: "167.86.83.197", wsPort: 5000}];
 
 const app = new Application(genesisBlockDevnet, configDevnet);
 app.registerTransaction(HelloTransaction);
