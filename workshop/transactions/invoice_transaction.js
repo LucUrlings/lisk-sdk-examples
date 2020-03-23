@@ -4,16 +4,24 @@ const {
 } = require('@liskhq/lisk-transactions');
 
 class InvoiceTransaction extends BaseTransaction {
+	// static get MINIMUM_REMAINING_BALANCE() {
+	// 	return '-10000000000000000000000000000000000000000000000000';
+	// }
+
 	static get TYPE() {
 		return 13;
 	}
 
 	static get FEE() {
-		return `${10 ** 8}`;
+		return `${0}`;
 	}
 
 	async prepare(store) {
-		await super.prepare(store); // To be replaced
+		await store.account.cache([
+			{
+				address: this.senderId,
+			},
+		]);
 	}
 
 	validateAsset() {
@@ -77,10 +85,10 @@ class InvoiceTransaction extends BaseTransaction {
 	}
 
 	undoAsset(store) {
+		const sender = store.account.get(this.senderId);
 		const errors = [];
-		const sender = {}; // Step 4.1 retrieve sender from store (replace code)
 		const invoiceId = sender.asset.invoicesSent.find(id => id === this.id);
-
+	
 		if (invoiceId === undefined || sender.asset.invoiceCount === 0) {
 			errors.push(
 				new TransactionError(
@@ -92,10 +100,15 @@ class InvoiceTransaction extends BaseTransaction {
 				),
 			);
 		} else {
-			// Step 4.2 and 4.3: Undo logic comes here
-			// Step 4.4: Save updated sender account
+			// Undo logic comes here
+			sender.asset.invoiceCount--;
+			sender.asset.invoicesSent = sender.asset.invoicesSent.filter(
+				id => id !== this.id,
+			);
+	
+			store.account.set(sender.address, sender); // Save updated sender account
 		}
-
+	
 		return errors;
 	}
 }

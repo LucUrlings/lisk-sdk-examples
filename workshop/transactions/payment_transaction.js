@@ -4,35 +4,75 @@ const {
 } = require('@liskhq/lisk-transactions');
 
 class PaymentTransaction extends TransferTransaction {
+	// static get MINIMUM_REMAINING_BALANCE() {
+	// 	return '-10000000000000000000000000000000000000000000000000';
+	// }
+
 	static get TYPE() {
 		return 14;
 	}
 
 	async prepare(store) {
-		await super.prepare(store); // To be replaced (step 1 & 2)
+    	await store.account.cache([
+        	{
+            	address: this.senderId,
+        	},
+        	{
+            	address: this.recipientId,
+        	},
+    	]);
+    	await store.transaction.cache([
+        	{
+           	 id: this.asset.data,
+        	},
+    	]); // To be replaced (step 1 & 2)
 	}
-
+	
 	applyAsset(store) {
-		// Need to call super here to get validation errors from validation logic in applyAsset function of TransferTransaction
 		const errors = super.applyAsset(store);
-
-		// Code step 3 comes here
-
-		// Code step 4 comes below here
+	
+		const transaction = store.transaction.find(
+			transaction => transaction.id === this.asset.data
+		); // Find related invoice in transactions for invoiceID
+	
 		if (transaction) {
-			// if transaction found in step 3 -> start validation
+			if (this.amount.lt(transaction.asset.requestedAmount)) {
+				errors.push(new TransactionError(
+					'Paid amount is lower than amount stated on invoice',
+					this.id,
+					'.amount',
+					transaction.requestedAmount,
+					'Expected amount to be equal or greater than `requestedAmount`',
+				));
+			}
+			if (transaction.senderId !== this.recipientId) {
+				errors.push(new TransactionError(
+					'RecipientId is not equal to the address that has sent the invoice.',
+					this.id,
+					'.recipientId',
+					this.recipientId,
+					transaction.senderId,
+				));
+			}
 		} else {
-			// Return TransactionError if tx doesn't exist
+			errors.push(new TransactionError(
+				'Invoice does not exist for ID',
+				this.id,
+				'.asset.invoiceID',
+				this.asset.data,
+				'Existing invoiceID registered as invoice transaction',
+			));
 		}
-
+	
 		return errors;
 	}
 
 	undoAsset(store) {
-		const errors = super.undoAsset(store); // Needs to be called for validation errors
-
-		// Potential code step 5 comes here
-
+		// No rollback needed as there is only validation happening in applyAsset
+		// Higher level function will rollback the attempted payment (send back tokens)
+	
+		const errors = super.undoAsset(store);
+	
 		return errors;
 	}
 }

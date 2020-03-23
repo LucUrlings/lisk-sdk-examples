@@ -24,8 +24,8 @@ const passphrase =
 const paymentTransaction = createRawPaymentTransaction(
 	{
 		recipientId,
-		amount: '11', // Requested amount: 10.5 (want to give bit extra)
-		invoiceId: '6068542855269194380', // Look up the ID of the invoice you have created (use: http://localhost:4000/api/transactions?type=13)
+		amount: '11.16442', // Requested amount: 10.5 (want to give bit extra)
+		invoiceId: '6607068126538907432', // Look up the ID of the invoice you have created (use: http://localhost:4000/api/transactions?type=13)
 	},
 	passphrase,
 );
