@@ -22,7 +22,6 @@ const app = new Application(genesisBlockDevnet, configDevnet);
 // @todo uncomment these accordingly, during the workshop
 app.registerTransaction(InvoiceTransaction);
 app.registerTransaction(PaymentTransaction);
-app.registerTransaction(transactions);
 
 app
 	.run()
